@@ -47,67 +47,24 @@ namespace GameWip
 
         private void buttonSetUp()
         {
-            //Event Set up
-            A1.Click += ClickedPlayButtons;
-            A2.Click += ClickedPlayButtons;
-            A3.Click += ClickedPlayButtons;
-            A4.Click += ClickedPlayButtons;
-            A5.Click += ClickedPlayButtons;
+            foreach (Control c in this.Controls)
+            {
+                if (c is Button)
+                {
+                    if (c != StartButton && c != TileReset)
+                    {
+                        // Set up OnClickEvent
+                        c.Click += ClickedPlayButtons;
 
-            B1.Click += ClickedPlayButtons;
-            B2.Click += ClickedPlayButtons;
-            B3.Click += ClickedPlayButtons;
-            B4.Click += ClickedPlayButtons;
-            B5.Click += ClickedPlayButtons;
+                        // Set up Random Color
+                        c.BackColor = bColors[rnd.Next(0, 4) * 2];
 
-            C1.Click += ClickedPlayButtons;
-            C2.Click += ClickedPlayButtons;
-            C3.Click += ClickedPlayButtons;
-            C4.Click += ClickedPlayButtons;
-            C5.Click += ClickedPlayButtons;
-
-            D1.Click += ClickedPlayButtons;
-            D2.Click += ClickedPlayButtons;
-            D3.Click += ClickedPlayButtons;
-            D4.Click += ClickedPlayButtons;
-            D5.Click += ClickedPlayButtons;
-
-            E1.Click += ClickedPlayButtons;
-            E2.Click += ClickedPlayButtons;
-            E3.Click += ClickedPlayButtons;
-            E4.Click += ClickedPlayButtons;
-            E5.Click += ClickedPlayButtons;
-            
-            //Color Set up
-            A1.BackColor = bColors[rnd.Next(0, 4) * 2];
-            A2.BackColor = bColors[rnd.Next(0, 4) * 2];
-            A3.BackColor = bColors[rnd.Next(0, 4) * 2];
-            A4.BackColor = bColors[rnd.Next(0, 4) * 2];
-            A5.BackColor = bColors[rnd.Next(0, 4) * 2];
-
-            B1.BackColor = bColors[rnd.Next(0, 4) * 2];
-            B2.BackColor = bColors[rnd.Next(0, 4) * 2];
-            B3.BackColor = bColors[rnd.Next(0, 4) * 2];
-            B4.BackColor = bColors[rnd.Next(0, 4) * 2];
-            B5.BackColor = bColors[rnd.Next(0, 4) * 2];
-
-            C1.BackColor = bColors[rnd.Next(0, 4) * 2];
-            C2.BackColor = bColors[rnd.Next(0, 4) * 2];
-            C3.BackColor = bColors[rnd.Next(0, 4) * 2];
-            C4.BackColor = bColors[rnd.Next(0, 4) * 2];
-            C5.BackColor = bColors[rnd.Next(0, 4) * 2];
-
-            D1.BackColor = bColors[rnd.Next(0, 4) * 2];
-            D2.BackColor = bColors[rnd.Next(0, 4) * 2];
-            D3.BackColor = bColors[rnd.Next(0, 4) * 2];
-            D4.BackColor = bColors[rnd.Next(0, 4) * 2];
-            D5.BackColor = bColors[rnd.Next(0, 4) * 2];
-
-            E1.BackColor = bColors[rnd.Next(0, 4) * 2];
-            E2.BackColor = bColors[rnd.Next(0, 4) * 2];
-            E3.BackColor = bColors[rnd.Next(0, 4) * 2];
-            E4.BackColor = bColors[rnd.Next(0, 4) * 2];
-            E5.BackColor = bColors[rnd.Next(0, 4) * 2];
+                        // Set up Gamestate 3 lists
+                        allButtonList.Add((Button)c);
+                        allbuttColor.Add(c.BackColor);
+                    }
+                }
+            }
         }
 
         private void ClickedPlayButtons(object sender, EventArgs e)
@@ -272,14 +229,9 @@ namespace GameWip
 
         private void OnTimedEvent(object sender, EventArgs e) // AHHHHHHHHHHHHHHHHHHHHHHHHHH 4:51pm 5/7/2018
         {
-            foreach (Control c in this.Controls)
+            foreach (Button bp in allButtonList)
             {
-                if (c is Button)
-                {
-                    allButtonList.Add((Button)c);
-                    allbuttColor.Add(c.BackColor);
-                    c.IsAccessible = false;
-                }
+                bp.IsAccessible = false;
             }
 
             label4.Text = allButtonList.Count.ToString(); // Never runs. Timer Never starts.
