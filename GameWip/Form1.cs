@@ -132,8 +132,10 @@ namespace GameWip
 
             else if (GameState == 3)
             {
+                CardFlipTimer.Start();
+
                 Int32 buttonIndex = allButtonList.BinarySearch(((Button)sender));
-                Color buttonColor = allbuttColor[buttonIndex];
+                Color buttonColor = allbuttColor[buttonIndex]; //Out of Range Error (See OnTimedEvent)
                 ((Button)sender).BackColor = buttonColor;
             }
 
@@ -276,12 +278,17 @@ namespace GameWip
                 {
                     allButtonList.Add((Button)c);
                     allbuttColor.Add(c.BackColor);
+                    c.IsAccessible = false;
                 }
             }
+
+            label4.Text = allButtonList.Count.ToString(); // Never runs. Timer Never starts.
+            label5.Text = allbuttColor.Count.ToString();
 
             foreach (Button bp in allButtonList)
             {
                 bp.BackColor = Color.AntiqueWhite;
+                bp.IsAccessible = true;
             }
 
             ((Timer)sender).Stop();
@@ -303,24 +310,32 @@ namespace GameWip
             if (GameState == 0) // End Game code
             {
                 StartButton.Visible = true;
-                ((Timer) sender).Stop();
+                ((Timer)sender).Stop();
                 TimerText.Text = "";
             }
 
             ScoreText.Text = score.ToString();
 
-            if (score == 50)
+            while (GameState == 1)
             {
-                GameState = 2;
-                CurrentLevel.Text = "Level: 2";
-                timeLeft += 40;
+                if (score > 50)
+                {
+                    timeLeft += 40;
+                    CurrentLevel.Text = "Level: 2";
+                    GameState = 2;
+                }
+                break;
             }
 
-            else if (score > 100)
+            while (GameState == 2)
             {
-                GameState = 3;
-                CurrentLevel.Text = "Level: 3";
-                timeLeft += 100;
+                if (score > 100)
+                {
+                    timeLeft += 100;
+                    CurrentLevel.Text = "Level: 3";
+                    GameState = 3;
+                }
+                break;
             }
 
         }
